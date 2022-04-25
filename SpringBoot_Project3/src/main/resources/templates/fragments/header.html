@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<th:block th:fragment="headerFragment">
+	<div class="wrapper row1">
+		<header id="header" class="clear">
+			<div id="logo" class="fl_left">
+				<h1>
+					<a href="/main">MUSIC</a>
+				</h1>
+			</div>
+			<div class="fl_right">
+				<ul class="inline">
+					<li th:if="${session.id}==null"><a class="fa fa" th:href="@{/member/login}">로그인</a></li>
+					<li th:if="${session.id}==null"><a class="fa fa" th:href="@{/member/join}">회원가입</a></li>
+					<li th:if="${session.id}!=null"><a class="fa fa" th:href="@{/member/loout}">로그아웃</a></li>
+				</ul>
+			</div>
+		</header>
+	</div>
+</th:block>
+</body>
+</html>

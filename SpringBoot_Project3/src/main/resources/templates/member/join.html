@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style type="text/css">
+a {
+  text-decoration: none;
+  color: black;
+}
+
+li {
+  list-style: none;
+}
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.login {
+  width: 30%;
+  height: 850px;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h2 {
+  color: tomato;
+  font-size: 2em;
+}
+.login_sns {
+  padding: 20px;
+  display: flex;
+}
+
+.login_sns li {
+  padding: 0px 15px;
+}
+
+.login_sns a {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 50px;
+  background: white;
+  font-size: 20px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4), -3px -3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.login_id {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_id input {
+  width: 70%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  display:inline;
+  float: left;
+}
+.login_id button {
+  width: 25%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  margin-left: 10px;
+  display:inline;
+  float: left;
+}
+
+.login_pw {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_pw input {
+  width: 90%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  display:inline;
+  float: left;
+}
+.login_pw2 {
+  margin-top: 20px;
+  width: 80%;
+}
+
+.login_pw2 input {
+  width: 90%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  display:inline;
+  float: left;
+}
+.login_nic {
+  margin-top: 20px;
+  width: 80%;
+}
+.login_nic input {
+  width: 70%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  display:inline;
+  float: left;
+}
+
+.login_nic button {
+  width: 25%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  margin-left: 10px;
+  display:inline;
+  float: left;
+}
+.login_tel {
+  margin-top: 20px;
+  width: 80%;
+}
+.login_tel input {
+  width: 70%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  display:inline;
+  float: left;
+}
+
+.login_tel button {
+  width: 25%;
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+  margin-left: 10px;
+  display:inline;
+  float: left;
+}
+
+
+.submit {
+  margin-top: 50px;
+  width: 80%;
+}
+.submit input {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  outline: none;
+  border-radius: 40px;
+  background: linear-gradient(to left, rgb(255, 77, 46), rgb(255, 155, 47));
+  color: white;
+  font-size: 1.2em;
+  letter-spacing: 2px;
+}
+</style>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+</head>
+<body>
+	 <div class="wrap">
+        <div class="login">
+            <h2>회원가입</h2>
+            <div class="login_sns">
+            </div>
+            <div class="login_id">
+                <h4>ID</h4>
+                <input type="text" id="userid" name="id" placeholder="ID를 입력해주세요" required>
+                <button value="찾기" id="idcheck" th:text="중복체크"></button>
+            </div>
+            <div class="login_pw">
+                <h4>PW</h4>
+                <input type="password" id="password" name="password" placeholder="PWD를 입력해주세요" required>
+            </div>
+            <div class="login_pw2">
+                <h4 id="pwmsg"></h4>
+                <input type="password" id="repassword" name="repassword" placeholder="PWD를 다시 입력해주세요" required>
+            </div>
+            <div class="login_nic">
+                <h4>닉네임</h4>
+                <input type="text" id="username" name="username" placeholder="닉네임를 입력해주세요" required>
+                <button value="찾기" id="niccheck" th:text="중복체크"></button>
+            </div>
+            <div class="login_tel">
+                <h4>전화번호</h4>
+                <input type="text" id="tel" name="tel" placeholder="010-1234-5678 형식으로 입력해주세요" required>
+                <button value="찾기" id="telcheck" th:text="중복체크"></button>
+            </div>
+            <div class="submit">
+               <input type="submit" value="회원가입" id="joinBtn">
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(function() {
+    	$('#idcheck').click(
+				function() {
+					let id = $('#userid').val();
+					$.ajax({
+						type : 'post',
+						url : '../member/idcheck',
+						data : {
+							"id" : id
+						},
+						success : function(res) {
+							if(res=='NO'){	
+								alert('현재 ID는 다른사람이 사용중입니다.');
+								$('#userid').val("");
+								$('#userid').focus();
+							}
+							else {
+								$('#password').focus();
+							}
+						}
+					})
+				})
+		$('#niccheck').click(
+				function() {
+					let nic = $('#username').val();
+					$.ajax({
+						type : 'post',
+						url : '../member/niccheck',
+						data : {
+							"nic" : nic
+						},
+						success : function(res) {
+							if(res=='NO'){	
+								alert('현재 닉네임은 다른사람이 사용중입니다.');
+								$('#username').val("");
+								$('#username').focus();
+							}
+							else {
+								$('#tel').focus();
+							}
+						}
+					})
+				})
+		$('#telcheck').click(
+				function() {
+					let tel = $('#tel').val();
+					$.ajax({
+						type : 'post',
+						url : '../member/telcheck',
+						data : {
+							"tel" : tel
+						},
+						success : function(res) {
+							if(res=='NO'){	
+								alert('현재 전화번호는 다른사람이 사용중입니다.');
+								$('#tel').val("");
+								$('#tel').focus();
+							}
+						}
+					})
+				})
+		$('#joinBtn').click(function() {
+			let id = $('#userid').val();
+			let pwd = $('#password').val();
+			let pwd2 = $('#repassword').val();
+			let nic = $('#username').val();
+			let tel = $('#tel').val();
+			
+			if(id==null) {
+				alert("아이디를 입력해주세요");
+				$('#userid').focus();
+			}
+			if(pwd==null) {
+				alert("비밀번호를 입력해주세요");
+				$('#password').focus();
+			}
+			if(pwd2==null) {
+				alert("비밀번호 체크란을 입력해주세요");
+				$('#repassword').focus();
+			} else {
+				if(pwd!=pwd2) {
+					$('#pwmsg').html("비밀번호가 일치하지 않습니다");
+				} else {
+					$('#pwmsg').html("");
+				}
+			}
+			if(nic==null) {
+				alert("아이디를 입력해주세요");
+				$('#userid').focus();
+			}
+			if(tel==null) {
+				alert("아이디를 입력해주세요");
+				$('#userid').focus();
+			}
+			
+			$.ajax({
+				type : 'post',
+				url : '../member/join_ok',
+				data : {
+					"id" : id,
+					"pwd" : pwd,
+					"nic" : nic,
+					"tel" : tel
+				},
+				success : function(res) {
+					location.href="/member/login";
+				}
+			})
+		})
+    })
+    </script>
+</body>
+</html>

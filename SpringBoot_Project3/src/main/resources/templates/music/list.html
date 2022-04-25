@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script>
+	$(function() {
+		/* $( "#dialog" ).dialog(); */
+		$('.posters').hover(function() {
+			$(this).css("cursor", "pointer")
+		}, function() {
+			$(this).css("cursor", "")
+		})
+		
+		var sid = '[[ ${session.id }]]';
+		console.log(sid);
+		// 포스터 클릭시 처리 
+		$('.posters').click(
+				function() {
+					let no = $(this).attr("data-no");
+					console.log(sid);
+					if(sid!='') {
+						$.ajax({
+							type : 'post',
+							url : '../music/detail',
+							data : {
+								"no" : no
+							},
+							success : function(res) {
+								console.log(res);
+								//let json=JSON.parse(res);
+								$('#music').attr("src",
+										"http://youtube.com/embed/" + res.mkey)
+								$('#title').text(res.title);
+								$('#singer').text(res.singer);
+								$('#album').text(res.album)
+
+								$('#dialog').dialog({
+									autoOpen : false,
+									width : 550,
+									height : 550,
+									modal : true
+								}).dialog("open");
+							}
+						})
+					}
+					
+				})
+	});
+	$(document).ready(function() {
+
+		var floatPosition = parseInt($("#floatMenu").css('top'));
+
+		$(window).scroll(function() {
+			var scrollTop = $(window).scrollTop();
+			var newPosition = scrollTop + floatPosition + "px";
+
+			$("#floatMenu").stop().animate({
+				"top" : newPosition
+			}, 500);
+
+		}).scroll();
+
+	});
+</script>
+<style type="text/css">
+ul li {
+	padding: 5px;
+	display: inline-block;
+	list-style-type: none;
+	margin-left: 20px;
+	border-radius: 5px;
+	background-color: white;
+}
+
+ul li:hover {
+	background-color: #f57243;
+	text-decoration: underline;
+}
+#floatMenu {
+	position: absolute;
+	width: 200px;
+	left: 50px;
+	top: 50px;
+	background: white;
+	border-radius: 20px;
+	text-align: center;
+	padding: 20px;
+}
+</style>
+</head>
+<body>
+	<div>
+		<div align="right" style="margin-right: 460px;">
+			<ul>
+				<li><a th:href="@{/main(cno=1)}" style="color: black;"
+					onmouseover="this.style.color='white'"
+					onmouseout="this.style.color='black'">TOP200</a></li>
+				<li><a th:href="@{/main(cno=2)}" style="color: black;"
+					onmouseover="this.style.color='white'"
+					onmouseout="this.style.color='black'">POP</a></li>
+				<li><a th:href="@{/main(cno=3)}" style="color: black;"
+					onmouseover="this.style.color='white'"
+					onmouseout="this.style.color='black'">트로트</a></li>
+				<li><a th:href="@{/main(cno=4)}" style="color: black;"
+					onmouseover="this.style.color='white'"
+					onmouseout="this.style.color='black'">classic</a></li>
+				<li><a th:href="@{/main(cno=5)}" style="color: black;"
+					onmouseover="this.style.color='white'"
+					onmouseout="this.style.color='black'">JPOP</a></li>
+			</ul>
+		</div>
+	</div>
+	<hr>
+	<div class="wrapper row3">
+		<main class="container clear">
+			<div class="content">
+				<table class="table">
+					<tr class="info">
+						<th class="text-center">순위</th>
+						<th class="text-center"></th>
+						<th class="text-center"></th>
+						<th class="text-center">곡명</th>
+						<th class="text-center">가수명</th>
+					</tr>
+					<tr th:each="vo,index:${list}">
+						<td class="text-center"  th:text="${vo.no}"></td>
+						<td class="text-center">
+							<div th:switch="${vo.state}">
+								<span th:case="유지" th:text="유지"></span> <span th:case="상승"
+									th:text="상승" style="color: red;"></span> <span th:case="하강"
+									th:text="하강" style="color: blue;"></span>
+									<span th:case="new" th:text="new" style="color: yellow; text-shadow: 1px 1px 1px #000;"></span> <span
+									th:if="${vo.idcrement}!=0" th:text="${vo.idcrement}"></span>
+							</div>
+						</td>
+						<td class="text-center"><img th:src="${vo.poster}"
+							style="width: 35px; height: 35px" ></td>
+						<td class="posters" th:text="${vo.title}" th:data-no="${vo.no}"></td>
+						<td th:text="${vo.singer}"></td>
+					</tr>
+				</table>
+				<table class="table">
+					<tr>
+						<td class="text-center"><a
+							th:href="@{/main(page=${curpage>1?curpage-1:curpage},cno=${cno})}"
+							class="btn btn-sm btn-info" th:text="이전"></a> <span
+							th:text="${curpage}"></span> page / <span th:text="${totalpage}"></span>
+							pages <a
+							th:href="@{/main(page=${curpage<totalpage?curpage+1:curpage},cno=${cno})}"
+							class="btn btn-sm btn-info" th:text="다음"></a></td>
+					</tr>
+				</table>
+			</div>
+			<div id="floatMenu">
+				<h4><b>최근 방문 Music</b></h4>
+				<div style="height: 10px;"></div>
+				<img th:each="vo,index:${mlist}" th:if="${index.index}<=4" th:src="${vo.poster}" style="width: 150px;height: 150px;margin-top: 5px;">
+			</div>
+			<!-- / main body -->
+			<div id="dialog" title="동영상" style="display: none">
+				<table class="table">
+					<tr>
+						<td colspan="2"><iframe src=""
+								style="width: 480px; height: 330px" id="music"></iframe></td>
+					</tr>
+					<tr>
+						<td width=20% class="text-right">곡명</td>
+						<td width=80% id="title"></td>
+					</tr>
+					<tr>
+						<td width=20% class="text-right">가수명</td>
+						<td width=80% id="singer"></td>
+					</tr>
+					<tr>
+						<td width=20% class="text-right">앨범</td>
+						<td width=80% id="album"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="clear"></div>
+		</main>
+	</div>
+</body>
+</html>
